@@ -1,0 +1,22 @@
+.theme-toggle {
+  background: var(--interactive-bg);
+  border: 2.5px solid var(--border-color);
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  box-shadow: 0 1.5px 6px 0 var(--shadow-sm);
+  transition: box-shadow 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  color: var(--interactive-text-hover);
+  background: var(--interactive-bg-hover);
+  border-color: var(--interactive-bg-hover);
+  box-shadow: 0 8px 32px 0 var(--shadow-xl);
+}

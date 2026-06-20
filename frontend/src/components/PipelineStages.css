@@ -1,0 +1,132 @@
+.pipeline-stages {
+  padding: 20px 24px;
+  background: var(--box-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px 32px 16px 32px / 24px 16px 32px 16px;
+  box-shadow: 0 2px 8px 0 var(--shadow-md);
+}
+
+.pipeline-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-color-subtle);
+  margin-bottom: 16px;
+}
+
+.pipeline-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Stage card */
+.pipeline-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--interactive-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px 24px 12px 24px / 18px 12px 24px 12px;
+  box-shadow: 0 1.5px 6px 0 var(--shadow-sm);
+  min-width: 90px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.pipeline-stage:hover {
+  box-shadow: 0 4px 16px 0 var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.stage-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.stage-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.stage-description {
+  font-size: 10px;
+  color: var(--text-color-subtle);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Arrow connector */
+.pipeline-arrow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  color: var(--text-color-subtle);
+  flex-shrink: 0;
+}
+
+.arrow-line {
+  display: inline-block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--border-color);
+  opacity: 0.5;
+}
+
+.arrow-head {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--border-color);
+  opacity: 0.7;
+  line-height: 1;
+  margin-left: -4px;
+}
+
+/* Responsive: stack vertically on narrow screens */
+@media (max-width: 520px) {
+  .pipeline-flow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .pipeline-stage {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    min-width: 100%;
+    border-radius: 12px;
+    padding: 10px 16px;
+  }
+
+  .stage-description {
+    text-align: left;
+  }
+
+  .pipeline-arrow {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20px;
+    height: 24px;
+  }
+
+  .arrow-line {
+    width: 1.5px;
+    height: 20px;
+  }
+
+  .arrow-head {
+    transform: rotate(90deg);
+    margin-left: 0;
+    margin-top: -6px;
+    padding-left: 6px;
+  }
+}

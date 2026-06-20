@@ -1,0 +1,98 @@
+.documents-section h3 {
+  color: var(--text-color);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.documents-list {
+  margin-top: 20px;
+}
+
+.doc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: var(--input-bg);
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  margin: 16px 0;
+  box-shadow: 0 1.5px 6px 0 var(--shadow-sm);
+  border: 2.5px solid var(--border-color);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.doc-item:hover {
+  box-shadow: 0 4px 16px 0 var(--shadow-lg);
+  border-color: var(--border-color-hover);
+}
+
+.doc-details {
+  flex: 1;
+}
+
+.doc-name {
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: 16px;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.doc-info {
+  color: var(--text-color-light);
+  font-size: 14px;
+}
+
+.delete-btn {
+  background: var(--interactive-bg);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 16px 32px 16px 32px/24px 16px 32px 16px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  margin: 0;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: var(--error-color);
+  border-color: var(--error-color);
+  color: white;
+  box-shadow: 0 4px 12px 0 rgba(204, 0, 0, 0.3);
+}
+
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--interactive-bg);
+}
+
+.error-message {
+  background: var(--input-bg);
+  color: var(--error-color);
+  border: 2px solid var(--error-border-color);
+  border-radius: 16px 32px 16px 32px/24px 16px 32px 16px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  font-size: 14px;
+  box-shadow: 0 1px 4px 0 var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+  .doc-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .delete-btn {
+    align-self: flex-end;
+  }
+}

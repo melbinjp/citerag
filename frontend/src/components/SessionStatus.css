@@ -1,0 +1,39 @@
+.session-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px 32px 16px 32px/24px 16px 32px 16px;
+  font-size: 12px;
+  color: var(--text-color-subtle);
+}
+
+.session-status.warning {
+  border-color: var(--error-color);
+  color: var(--error-color);
+}
+
+.session-info {
+  font-weight: 600;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  margin: 0;
+  transition: transform 0.2s;
+}
+
+.refresh-btn:hover {
+  transform: scale(1.1);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

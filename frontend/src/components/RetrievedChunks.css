@@ -1,0 +1,210 @@
+/* ────────────────────────────────────────────────────────────────────────────
+   RetrievedChunks component styles
+   Matches the project's asymmetric-radius, token-art design system.
+   Uses the CSS custom properties defined in index.css.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.retrieved-chunks {
+  margin-top: 24px;
+}
+
+/* Section heading */
+.retrieved-chunks__heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2.5px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Small pill showing the count of returned passages */
+.retrieved-chunks__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  background: var(--interactive-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px 24px 12px 24px / 18px 12px 24px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-color);
+  box-shadow: 0 1px 4px 0 var(--shadow-sm);
+}
+
+/* ── Empty state (Requirement 11.5) ── */
+.retrieved-chunks__empty {
+  padding: 18px 22px;
+  background: var(--box-bg);
+  border: 1.5px dashed var(--border-color-dashed);
+  border-radius: 16px 32px 16px 32px / 24px 16px 32px 16px;
+  color: var(--text-color-subtle);
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+  box-shadow: 0 1px 4px 0 var(--shadow-sm);
+}
+
+/* ── Chunk list (Requirement 11.4) ── */
+.retrieved-chunks__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Individual chunk card */
+.retrieved-chunks__item {
+  position: relative;
+  padding: 14px 16px 14px 44px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px 32px 16px 32px / 24px 16px 32px 16px;
+  box-shadow: 0 1.5px 6px 0 var(--shadow-sm);
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  row-gap: 6px;
+  align-items: start;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.retrieved-chunks__item:hover {
+  box-shadow: 0 6px 24px 0 var(--shadow-md);
+  border-color: var(--border-color-hover);
+}
+
+/* Absolute rank badge in the left gutter */
+.retrieved-chunks__rank {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-color-subtle);
+  line-height: 1;
+  user-select: none;
+}
+
+/* Shared label style */
+.retrieved-chunks__label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-color-subtle);
+  margin-bottom: 2px;
+}
+
+/* Score cell */
+.retrieved-chunks__score {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.retrieved-chunks__score-value {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-color);
+  background: var(--interactive-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px 16px 8px 16px / 12px 8px 16px 8px;
+  padding: 2px 8px;
+  box-shadow: 0 1px 3px 0 var(--shadow-sm);
+  cursor: default;
+}
+
+/* Source filename cell */
+.retrieved-chunks__source {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.retrieved-chunks__filename {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-color);
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+/* Page number cell */
+.retrieved-chunks__page {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.retrieved-chunks__page-value {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-color-light);
+  background: var(--box-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px 16px 8px 16px / 12px 8px 16px 8px;
+  padding: 2px 8px;
+}
+
+/* Text snippet */
+.retrieved-chunks__snippet {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 4px 0 0 0;
+  padding: 8px 12px;
+  background: var(--box-bg);
+  border-left: 3px solid var(--border-color);
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-color-light);
+  font-style: italic;
+  word-break: break-word;
+}
+
+/* ── Dark-mode overrides ── */
+[data-theme='dark'] .retrieved-chunks__score-value {
+  background: var(--interactive-bg);
+}
+
+[data-theme='dark'] .retrieved-chunks__snippet {
+  border-left-color: var(--border-color);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .retrieved-chunks__item {
+    grid-template-columns: auto 1fr;
+    padding-left: 40px;
+  }
+
+  .retrieved-chunks__page {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .retrieved-chunks__snippet {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  .retrieved-chunks__filename {
+    max-width: 180px;
+  }
+}

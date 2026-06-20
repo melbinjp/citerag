@@ -1,0 +1,27 @@
+# ===== Secrets =====
+.env
+.env.local
+.env.*.local
+
+# ===== Corpus / runtime data (user-provided PDFs, ingestion logs) =====
+/corpus/
+/data/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
+
+# ===== Node / frontend build =====
+node_modules/
+dist/
+.vite/
+
+# ===== OS / editor =====
+.DS_Store
+.vscode/
+*.log

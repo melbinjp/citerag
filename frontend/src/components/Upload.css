@@ -1,0 +1,312 @@
+.upload-section {
+  background: var(--input-bg);
+  border: 2.5px dashed var(--border-color-dashed);
+  border-radius: 36px 80px 36px 80px/60px 36px 80px 36px;
+  padding: 40px 0 30px 0;
+  text-align: center;
+  box-shadow: 0 4px 24px 0 var(--shadow-md);
+  margin-bottom: 24px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.upload-section.dragover {
+  border-color: var(--border-color-hover);
+  background: var(--header-bg);
+  box-shadow: 0 8px 32px 0 var(--shadow-xl);
+}
+
+.upload-btn {
+  background: var(--interactive-bg);
+  color: var(--text-color);
+  padding: 12px 30px;
+  border: 2.5px solid var(--border-color);
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 2px 8px 0 var(--shadow-md);
+  display: inline-block;
+  margin: 10px;
+  transition: box-shadow 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.upload-btn:hover {
+  color: var(--interactive-text-hover);
+  background: var(--interactive-bg-hover);
+  border-color: var(--interactive-bg-hover);
+  box-shadow: 0 8px 32px 0 var(--shadow-xl);
+}
+
+.url-input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.url-input {
+  flex: 1;
+  margin-top: 0;
+  padding: 12px 20px;
+  border: 2.5px solid var(--border-color);
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--input-bg);
+  color: var(--text-color);
+  box-shadow: 0 1.5px 6px 0 var(--shadow-sm);
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: var(--border-color-hover);
+  box-shadow: 0 4px 16px 0 var(--shadow-lg);
+}
+
+.submit-btn {
+  background: var(--interactive-bg);
+  color: var(--text-color);
+  padding: 12px 40px;
+  border: 2.5px solid var(--border-color);
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 15px;
+  display: block;
+  margin-left: auto;
+  box-shadow: 0 2px 8px 0 var(--shadow-md);
+  transition: box-shadow 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.submit-btn:hover {
+  color: var(--interactive-text-hover);
+  background: var(--interactive-bg-hover);
+  border-color: var(--interactive-bg-hover);
+  box-shadow: 0 8px 32px 0 var(--shadow-xl);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.file-list, .url-list {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.file-list h4, .url-list h4 {
+  color: var(--text-color);
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.file-item, .url-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--box-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px 32px 16px 32px/24px 16px 32px 16px;
+  margin: 8px 0;
+  box-shadow: 0 1px 4px 0 var(--shadow-sm);
+}
+
+.file-item span, .url-item span {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-color);
+  word-break: break-all;
+}
+
+.remove-btn {
+  background: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.remove-btn:hover {
+  background: #a00;
+}
+
+.status-message {
+  padding: 15px 0;
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  margin: 20px 0;
+  display: none;
+  border: 2.5px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-weight: 600;
+  box-shadow: 0 1.5px 6px 0 var(--shadow-sm);
+  text-align: center;
+}
+
+.status-message.show {
+  display: block;
+}
+
+.status-message.success {
+  background: var(--input-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.status-message.error {
+  background: var(--input-bg);
+  color: var(--error-color);
+  border-color: var(--error-border-color);
+}
+
+.process-results {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.process-results h4 {
+  color: var(--text-color);
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  margin: 8px 0;
+  border-radius: 16px 32px 16px 32px/24px 16px 32px 16px;
+  box-shadow: 0 1px 4px 0 var(--shadow-sm);
+  border: 1.5px solid;
+}
+
+.result-item.success {
+  background: var(--box-bg);
+  border-color: var(--border-color);
+}
+
+.result-item.error {
+  background: var(--input-bg);
+  border-color: var(--error-border-color);
+}
+
+.result-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.result-icon {
+  font-size: 16px;
+}
+
+.result-name {
+  font-weight: 600;
+  color: var(--text-color);
+  word-break: break-all;
+}
+
+.result-type {
+  font-size: 12px;
+  color: var(--text-color-subtle);
+  font-style: italic;
+}
+
+.result-doc-id {
+  font-size: 12px;
+  color: var(--text-color-light);
+  font-family: monospace;
+}
+
+.result-error {
+  font-size: 12px;
+  color: var(--error-color);
+  max-width: 200px;
+  word-break: break-word;
+}
+
+.query-prompt {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--results-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 24px 48px 24px 48px/36px 24px 48px 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px 0 var(--shadow-md);
+}
+
+.query-prompt p {
+  margin: 0 0 12px 0;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.go-to-query-btn {
+  background: var(--interactive-bg);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 20px 40px 20px 40px/30px 20px 40px 20px;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0;
+}
+
+.go-to-query-btn:hover {
+  background: var(--interactive-bg-hover);
+  color: var(--interactive-text-hover);
+  border-color: var(--interactive-bg-hover);
+  box-shadow: 0 6px 20px 0 var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .upload-section {
+    padding: 20px 10px;
+    border-radius: 24px;
+  }
+  
+  .upload-btn, .submit-btn {
+    width: 100%;
+    margin: 10px 0 0 0;
+    display: block;
+    font-size: 16px;
+  }
+  
+  .url-input-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .url-input {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  
+  .file-item, .url-item, .result-item {
+    border-radius: 16px;
+  }
+  
+  .query-prompt {
+    border-radius: 20px;
+    padding: 15px;
+  }
+}
