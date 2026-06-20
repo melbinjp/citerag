@@ -3,7 +3,11 @@
 .env.local
 .env.*.local
 
-# ===== Corpus / runtime data (user-provided PDFs, ingestion logs) =====
+# ===== Markdown docs (README.md is the only tracked .md) =====
+*.md
+!README.md
+
+# ===== Corpus / runtime data =====
 /corpus/
 /data/
 
