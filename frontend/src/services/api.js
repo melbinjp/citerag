@@ -306,4 +306,37 @@ export const queryConversationStream = async function* (conversationId, q, optio
   }
 };
 
+/**
+ * Upload a PDF file to the global Qdrant corpus.
+ * POST /upload → { filename, num_chunks, success }
+ */
+export const uploadGlobalFile = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await api.post('/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
+
+/**
+ * Get all unique documents in the global Qdrant collection.
+ * GET /documents → { documents: [{ filename }] }
+ */
+export const getGlobalDocuments = async () => {
+  const response = await api.get('/documents');
+  return response.data;
+};
+
+/**
+ * Delete a document from the global Qdrant collection.
+ * DELETE /documents/{filename} → 200
+ */
+export const deleteGlobalDocument = async (filename) => {
+  const response = await api.delete(`/documents/${encodeURIComponent(filename)}`);
+  return response.data;
+};
+
 export default api;

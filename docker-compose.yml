@@ -39,7 +39,8 @@ services:
       - "7860:7860"
     environment:
       # Embedded Qdrant: persist to the writable /data volume (no server).
-      # Leave QDRANT_URL unset so the backend uses embedded on-disk mode.
+      # Explicitly clear QDRANT_URL to use embedded on-disk mode.
+      QDRANT_URL: ""
       QDRANT_PATH: /data/qdrant
       QDRANT_COLLECTION: ${QDRANT_COLLECTION:-corpus}
 
@@ -53,7 +54,7 @@ services:
       SKIP_INGESTION: ${SKIP_INGESTION:-false}
 
       # Hugging Face model cache
-      HF_HOME: /tmp/hf_cache
+      HF_HOME: /data/hf_cache
       HF_HUB_DOWNLOAD_TIMEOUT: "120"
 
       # Optional tuning knobs (sensible defaults apply when unset)

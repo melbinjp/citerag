@@ -47,7 +47,7 @@ const RetrievedChunks = ({ chunks }) => {
       aria-label="Retrieved passages"
     >
       <h3 className="retrieved-chunks__heading">
-        🔍 Retrieved Passages
+        Retrieved Passages
         {hasChunks && (
           <span className="retrieved-chunks__count" aria-live="polite">
             {chunks.length}
@@ -107,7 +107,7 @@ const RetrievedChunks = ({ chunks }) => {
                     title={filename}
                     aria-label={`Source file: ${filename}`}
                   >
-                    📄 {filename}
+                    {filename}
                   </span>
                 </div>
 

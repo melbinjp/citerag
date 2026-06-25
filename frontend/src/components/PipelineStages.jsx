@@ -4,25 +4,25 @@ import './PipelineStages.css';
 const STAGES = [
   {
     id: 'pdf',
-    icon: '📄',
+    icon: '1',
     label: 'PDF',
     description: 'Source documents',
   },
   {
     id: 'chunking',
-    icon: '✂️',
+    icon: '2',
     label: 'Chunking',
     description: 'Split into passages',
   },
   {
     id: 'embedding',
-    icon: '🔢',
+    icon: '3',
     label: 'Embedding',
     description: 'Dense + sparse vectors',
   },
   {
     id: 'vector-store',
-    icon: '🗄️',
+    icon: '4',
     label: 'Vector Store',
     description: 'Persistent Qdrant index',
   },

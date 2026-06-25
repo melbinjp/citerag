@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install torch (CPU-only) first so subsequent deps resolve against it (Req 14.2, 14.3)
 COPY requirements.txt ./
-RUN pip install --no-cache-dir torch==2.4.0 --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir typing-extensions
+RUN pip install --no-cache-dir torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Hugging Face model cache in a writable directory

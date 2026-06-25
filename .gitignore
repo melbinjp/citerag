@@ -3,10 +3,6 @@
 .env.local
 .env.*.local
 
-# ===== Markdown docs (README.md is the only tracked .md) =====
-*.md
-!README.md
-
 # ===== Corpus / runtime data =====
 /corpus/
 /data/
@@ -29,3 +25,6 @@ dist/
 .DS_Store
 .vscode/
 *.log
+.kiro/
+.agents/
+AGENT.md

@@ -1,0 +1,289 @@
+/* ──────────────────────────────────────────────────────────────
+   MarkdownMessage — rich, chat-assistant-grade markdown rendering.
+   Inherits the app's CSS custom properties from index.css.
+   ────────────────────────────────────────────────────────────── */
+
+.md-message {
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--text-color);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Vertical rhythm */
+.md-message > *:first-child {
+  margin-top: 0;
+}
+
+.md-message > *:last-child {
+  margin-bottom: 0;
+}
+
+.md-message p {
+  margin: 0 0 0.85em 0;
+}
+
+/* Headings */
+.md-message h1,
+.md-message h2,
+.md-message h3,
+.md-message h4,
+.md-message h5,
+.md-message h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 1.4em 0 0.6em;
+  color: var(--text-color);
+}
+
+.md-message h1 { font-size: 1.5em; }
+.md-message h2 { font-size: 1.3em; }
+.md-message h3 { font-size: 1.15em; }
+.md-message h4 { font-size: 1.02em; }
+
+.md-message h1,
+.md-message h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0.97;
+}
+
+/* Lists */
+.md-message ul,
+.md-message ol {
+  margin: 0 0 0.85em 0;
+  padding-left: 1.5em;
+}
+
+.md-message li {
+  margin: 0.3em 0;
+}
+
+.md-message li > ul,
+.md-message li > ol {
+  margin: 0.3em 0;
+}
+
+/* Task list checkboxes */
+.md-message input[type='checkbox'] {
+  width: auto;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+/* Blockquote */
+.md-message blockquote {
+  margin: 0 0 0.85em 0;
+  padding: 0.5em 1.1em;
+  border-left: 4px solid var(--primary-accent);
+  background: var(--box-bg);
+  border-radius: 0 12px 12px 0;
+  color: var(--text-color-light);
+}
+
+.md-message blockquote p {
+  margin: 0;
+}
+
+/* Horizontal rule */
+.md-message hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1.6em 0;
+  opacity: 0.5;
+}
+
+/* Links */
+.md-message a {
+  color: var(--primary-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-accent) 40%, transparent);
+  transition: border-color 0.15s, opacity 0.15s;
+}
+
+.md-message a:hover {
+  opacity: 0.8;
+  border-bottom-color: var(--primary-accent);
+}
+
+/* Inline code */
+.md-inline-code {
+  font-family: 'SFMono-Regular', ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 0.88em;
+  padding: 0.15em 0.42em;
+  background: var(--box-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  white-space: break-spaces;
+}
+
+/* Images */
+.md-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 0.5em 0;
+  border: 1px solid var(--border-color);
+}
+
+/* ── Code block ── */
+.md-code-block {
+  margin: 0 0 1em 0;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--code-bg, #f6f8fa);
+  box-shadow: 0 1px 6px 0 var(--shadow-sm);
+}
+
+.md-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  background: var(--code-header-bg, rgba(0, 0, 0, 0.04));
+  border-bottom: 1px solid var(--border-color);
+}
+
+.md-code-lang {
+  font-family: 'SFMono-Regular', ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-color-subtle);
+}
+
+.md-code-copy {
+  margin: 0;
+  padding: 3px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-color-subtle);
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.md-code-copy:hover {
+  background: var(--primary-accent);
+  border-color: var(--primary-accent);
+  color: var(--interactive-text-hover);
+  box-shadow: none;
+}
+
+.md-code-pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  background: transparent;
+  border-radius: 0;
+}
+
+.md-code-pre code {
+  font-family: 'SFMono-Regular', ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: var(--text-color);
+}
+
+.md-code-pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.md-code-pre::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+/* ── Tables ── */
+.md-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 0 0 1em 0;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.md-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.md-table-wrap th,
+.md-table-wrap td {
+  padding: 9px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.md-table-wrap th:last-child,
+.md-table-wrap td:last-child {
+  border-right: none;
+}
+
+.md-table-wrap tr:last-child td {
+  border-bottom: none;
+}
+
+.md-table-wrap thead th {
+  background: var(--box-bg);
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.md-table-wrap tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--box-bg) 45%, transparent);
+}
+
+/* ── Dark-mode code surfaces ── */
+[data-theme='dark'] .md-code-block {
+  --code-bg: #1b1d1e;
+  --code-header-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* Swap highlight.js theme colors for dark mode without a second import */
+[data-theme='dark'] .md-code-pre .hljs,
+[data-theme='dark'] .md-code-pre code {
+  color: #e6e6e6;
+}
+
+[data-theme='dark'] .md-code-pre .hljs-keyword,
+[data-theme='dark'] .md-code-pre .hljs-selector-tag,
+[data-theme='dark'] .md-code-pre .hljs-built_in,
+[data-theme='dark'] .md-code-pre .hljs-name {
+  color: #c792ea;
+}
+
+[data-theme='dark'] .md-code-pre .hljs-string,
+[data-theme='dark'] .md-code-pre .hljs-attr,
+[data-theme='dark'] .md-code-pre .hljs-attribute {
+  color: #c3e88d;
+}
+
+[data-theme='dark'] .md-code-pre .hljs-number,
+[data-theme='dark'] .md-code-pre .hljs-literal {
+  color: #f78c6c;
+}
+
+[data-theme='dark'] .md-code-pre .hljs-comment,
+[data-theme='dark'] .md-code-pre .hljs-quote {
+  color: #7a8a99;
+  font-style: italic;
+}
+
+[data-theme='dark'] .md-code-pre .hljs-title,
+[data-theme='dark'] .md-code-pre .hljs-function .hljs-title {
+  color: #82aaff;
+}

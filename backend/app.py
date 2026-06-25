@@ -944,6 +944,177 @@ async def healthz(request: Request):
     )
 
 
+# --- GET /documents ---
+@app.get(
+    "/documents",
+    summary="List all unique documents currently stored in Qdrant",
+    tags=["RAG Conversations"],
+)
+async def list_documents(request: Request):
+    _require_rag(request)
+    vector_store = request.app.state.rag_vector_store
+    
+    def _scroll_filenames():
+        filenames = set()
+        offset = None
+        while True:
+            records, offset = vector_store._client.scroll(
+                collection_name=vector_store.collection_name,
+                limit=1000,
+                with_payload=["filename"],
+                with_vectors=False,
+                offset=offset
+            )
+            for r in records:
+                if r.payload and "filename" in r.payload:
+                    filenames.add(r.payload["filename"])
+            if offset is None:
+                break
+        return sorted(list(filenames))
+        
+    try:
+        filenames = await asyncio.to_thread(_scroll_filenames)
+        return {"documents": [{"filename": name} for name in filenames]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to list documents: {e}")
+
+
+# --- DELETE /documents/{filename} ---
+@app.delete(
+    "/documents/{filename:path}",
+    summary="Delete a document from Qdrant",
+    tags=["RAG Conversations"],
+)
+async def delete_global_document(filename: str, request: Request):
+    _require_rag(request)
+    vector_store = request.app.state.rag_vector_store
+    
+    from qdrant_client.http import models as qmodels
+    
+    def _delete_points():
+        res = vector_store._client.delete(
+            collection_name=vector_store.collection_name,
+            points_selector=qmodels.Filter(
+                must=[
+                    qmodels.FieldCondition(
+                        key="filename",
+                        match=qmodels.MatchValue(value=filename)
+                    )
+                ]
+            )
+        )
+        return res
+        
+    try:
+        await asyncio.to_thread(_delete_points)
+        # Delete physical file from /data/pdfs
+        file_path = os.path.join("/data/pdfs", filename)
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except OSError:
+                pass
+        return {"filename": filename, "deleted": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete document: {e}")
+
+
+# --- GET /documents/{filename} ---
+from fastapi.responses import FileResponse
+
+@app.get(
+    "/documents/{filename:path}",
+    summary="Serve an ingested PDF document",
+    tags=["RAG Conversations"],
+)
+async def get_document_file(filename: str):
+    file_path = os.path.join("/data/pdfs", filename)
+    if not os.path.exists(file_path):
+        alt_path = os.path.join("/data/corpus", filename)
+        if os.path.exists(alt_path):
+            file_path = alt_path
+        else:
+            raise HTTPException(status_code=404, detail="File not found.")
+    return FileResponse(file_path, media_type="application/pdf", filename=filename)
+
+
+# --- POST /upload ---
+@app.post(
+    "/upload",
+    summary="Upload and ingest a document directly into the global vector store",
+    tags=["RAG Conversations"],
+)
+async def upload_document(request: Request, file: UploadFile = File(...)):
+    _require_rag(request)
+    
+    filename = file.filename
+    if not filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are supported.")
+
+    import shutil
+    
+    pdf_dir = "/data/pdfs"
+    os.makedirs(pdf_dir, exist_ok=True)
+    file_path = os.path.join(pdf_dir, filename)
+    
+    try:
+        with open(file_path, "wb") as f:
+            shutil.copyfileobj(file.file, f)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save uploaded file: {e}")
+
+    try:
+        from backend.ingestion.extract import Text_Extractor
+        from backend.ingestion.clean import Cleaner
+        from backend.ingestion.chunker import Chunker, ChunkerConfig
+        from backend.ingestion.error_log import IngestionErrorLog
+        from backend.ingestion.pipeline import IngestionPipeline
+
+        extractor = Text_Extractor()
+        cleaner = Cleaner()
+        chunker = Chunker(config=ChunkerConfig())
+        error_log = IngestionErrorLog()
+        
+        embedding_model = request.app.state.rag_embedding_model
+        vector_store = request.app.state.rag_vector_store
+
+        pipeline = IngestionPipeline(
+            extractor=extractor,
+            cleaner=cleaner,
+            chunker=chunker,
+            embedding_model=embedding_model,
+            vector_store=vector_store,
+            error_log=error_log,
+        )
+
+        result = await asyncio.to_thread(pipeline.ingest_pdf, file_path)
+        if not result.success:
+            # Delete physical file on failure to prevent stale files
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                except OSError:
+                    pass
+            err_details = "; ".join([e.message for e in result.errors]) if result.errors else "Unknown extraction failure"
+            raise HTTPException(status_code=400, detail=f"Failed to ingest PDF: {err_details}")
+            
+        return {
+            "filename": filename,
+            "num_chunks": result.num_chunks,
+            "success": True
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except OSError:
+                pass
+        raise HTTPException(status_code=500, detail=f"Ingestion failed: {e}")
+
+
+
 # ... (Main Execution block, no changes)
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=7860)

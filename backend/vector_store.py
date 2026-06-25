@@ -197,15 +197,15 @@ class VectorStore:
 
     @staticmethod
     def compute_point_id(text: str, metadata: ChunkMetadata) -> str:
-        """Compute the deterministic SHA-256 point id for a chunk.
+        """Compute the deterministic point id for a chunk.
 
         Formula (Requirements 4.4, 5.4):
             sha256(text + "\\0" + pdf_id + "\\0" + page_number + "\\0" + chunk_position)
+            converted to a valid 128-bit UUID string.
 
-        Returns a 64-character lowercase hex string.  Two chunks are
-        considered identical when they have the same text *and* the same
-        metadata fields — the returned id will be identical in that case,
-        ensuring that re-upserting the same chunk is a no-op.
+        Two chunks are considered identical when they have the same text
+        *and* the same metadata fields — the returned id will be identical
+        in that case, ensuring that re-upserting the same chunk is a no-op.
         """
         raw = (
             text
@@ -216,7 +216,9 @@ class VectorStore:
             + "\x00"
             + str(metadata.chunk_position)
         )
-        return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        sha256_hex = hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        import uuid
+        return str(uuid.UUID(hex=sha256_hex[:32]))
 
     # ------------------------------------------------------------------
     # Write path
