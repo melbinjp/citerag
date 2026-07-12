@@ -286,8 +286,8 @@ class VectorStore:
         Parameters
         ----------
         point_id:
-            A 64-character SHA-256 hex string as returned by
-            :meth:`compute_point_id`.
+            A deterministic UUID derived from the SHA-256 digest, as returned
+            by :meth:`compute_point_id`.
         """
         results = self._client.retrieve(
             collection_name=self._collection,
