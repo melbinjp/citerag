@@ -72,13 +72,13 @@ docs/
 | Installation | [README - Quick Start](../README.md#quick-start-docker) |
 | API Endpoints | [API Reference](API.md) |
 | Docker Deployment | [Deployment - Docker](DEPLOYMENT.md#docker-deployment-recommended) |
-| Cloud Deployment | [Deployment - Cloud Platforms](DEPLOYMENT.md#cloud-platforms) |
+| Cloud Deployment | [Deployment - Cloud platform options](DEPLOYMENT.md#cloud-platform-options) |
 | System Design | [Architecture](ARCHITECTURE.md) |
 | Data Flow | [Architecture - Data Flow](ARCHITECTURE.md#data-flow) |
 | Contributing | [Contributing Guide](../CONTRIBUTING.md) |
 | Security | [Security Policy](../SECURITY.md) |
 | Troubleshooting | [FAQ - Troubleshooting](FAQ.md#troubleshooting) |
-| Performance | [FAQ - Performance](FAQ.md#performance) |
+| Performance | [FAQ - Query behavior](FAQ.md#why-is-the-first-query-slow) |
 
 ### By Audience
 
@@ -97,13 +97,12 @@ Can't find what you're looking for?
 1. **Search the docs** - Use Ctrl+F or search GitHub
 2. **Check the FAQ** - [FAQ.md](FAQ.md) covers common issues
 3. **Open an issue** - [GitHub Issues](https://github.com/melbinjp/citerag/issues)
-4. **Start a discussion** - [GitHub Discussions](https://github.com/melbinjp/citerag/discussions)
 
 ## 🤝 Improving the Docs
 
 Found a typo or want to improve the documentation?
 
-1. Documentation issues are tracked on [GitHub](https://github.com/melbinjp/citerag/issues)
+1. Documentation issues are tracked in [GitHub Issues](https://github.com/melbinjp/citerag/issues)
 2. Submit documentation PRs following the [Contributing Guide](../CONTRIBUTING.md)
 3. All contributions are welcome!
 

@@ -291,4 +291,3 @@ Always review licenses before deploying to production.
 
 - 📖 Check the [Documentation](.)
 - 🐛 [Open an issue](https://github.com/melbinjp/citerag/issues)
-- 💬 [Start a discussion](https://github.com/melbinjp/citerag/discussions)
