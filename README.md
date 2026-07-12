@@ -1,12 +1,20 @@
 # CiteRAG
 
-A Retrieval-Augmented Generation system for question answering over PDF documents. Answers are grounded exclusively in the ingested documents and include page-level source citations.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![React 19](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-ready-blue.svg)](https://www.docker.com/)
+
+A working Retrieval-Augmented Generation application for question answering over PDF documents. The answer prompt is constrained to retrieved passages, and responses include page-level source citations.
+
+**[Documentation](docs/) • [API Reference](docs/API.md) • [Deployment Guide](docs/DEPLOYMENT.md) • [Architecture](docs/ARCHITECTURE.md)**
 
 ## Overview
 
-CiteRAG ingests PDF documents into a persistent vector store, then serves natural-language queries via a hybrid dense + sparse retrieval pipeline followed by single-pass answer generation. Every answer cites the source filename and page number of each claim.
+CiteRAG ingests PDF documents into a persistent vector store, then serves natural-language queries through hybrid dense + sparse retrieval followed by answer generation. The API returns the retrieved chunks and structured source citations so answers can be checked against the original pages.
 
-The entire stack runs on CPU. The only external dependency is a configurable hosted LLM provider for answer generation.
+Embedding, retrieval, and the default embedded vector store run locally on CPU. Answer generation currently uses the Google Gemini provider and therefore requires a Google API key.
 
 ## Architecture
 
@@ -17,7 +25,7 @@ Frontend (React / Vite)
 Backend (FastAPI)
     ├── Embedding       BAAI/bge-m3 — dense + sparse vectors in one pass
     ├── Vector store    Qdrant       — HNSW ANN + sparse, server-side RRF
-    └── LLM provider    Gemini       — configurable
+    └── LLM provider    Gemini       — current provider
 ```
 
 **Ingestion pipeline**
@@ -26,19 +34,19 @@ PDF → PyMuPDF text extraction → targeted Tesseract OCR (zero-text pages + em
 
 **Query pipeline**
 
-Query → validation → bge-m3 embedding → Qdrant hybrid search (dense prefetch + sparse prefetch, RRF fusion) → optional reranking → single-pass Chain-of-Thought generation → streamed answer with inline citations
+Query → validation → bge-m3 embedding → Qdrant hybrid search (dense prefetch + sparse prefetch, RRF fusion) → optional reranking → answer generation → streamed answer with inline citations
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Backend | Python 3.10, FastAPI |
-| Embeddings | [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) — dense + sparse, 8192-token context, 100+ languages |
+| Embeddings | [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) — dense + sparse embeddings from one model |
 | Vector store | [Qdrant](https://qdrant.tech) — HNSW ANN, sparse vectors, server-side RRF |
 | PDF extraction | PyMuPDF |
 | OCR | Tesseract |
 | Tokenizer | tiktoken |
-| LLM | Google Gemini (default) — provider-agnostic abstraction |
+| LLM | Google Gemini — the provider currently registered by the application |
 | Frontend | React 19, Vite |
 | Deployment | Docker, Docker Compose |
 
@@ -49,12 +57,12 @@ Query → validation → bge-m3 embedding → Qdrant hybrid search (dense prefet
 - Hybrid dense + sparse retrieval fused via Reciprocal Rank Fusion
 - Deterministic recursive chunking with reproducible boundaries and citations
 - Targeted OCR — full-page OCR only on zero-text pages; image bounding-box OCR on digital pages
-- Single-pass Chain-of-Thought generation, no agentic routing
+- Passage-constrained answer generation with inline provenance tags
 - Inline `[filename, page X]` provenance and structured citations per source
 - Multi-turn conversation with bounded history (10 turns / 4000 tokens)
 - Dark mode with theme persistence
 - Optional reranking with timeout fallback
-- Evaluation service: p95 latency, Recall@k, MRR, citation accuracy, hallucination rate
+- Evaluation endpoint for p95 latency and optional labeled retrieval/citation metrics
 
 ## Quick Start (Docker)
 
@@ -86,7 +94,7 @@ Edit `.env` and set `GOOGLE_API_KEY` to your Gemini API key.
 docker compose up --build
 ```
 
-This starts the backend with embedded Qdrant (no separate database container needed). The first startup downloads the bge-m3 embedding model (~2 GB) and caches it for subsequent runs.
+This starts the backend with embedded Qdrant (no separate database container needed). The first startup downloads the BGE-M3 embedding model and caches it for subsequent runs.
 
 | Service | URL |
 |---|---|
@@ -185,6 +193,38 @@ pip install -r requirements.txt
 python -m pytest tests/ -v
 ```
 
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## Security
+
+For security concerns, please see our [Security Policy](SECURITY.md).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history and updates.
+
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) for multilingual embeddings
+- [Qdrant](https://qdrant.tech) for the vector store
+- [FastAPI](https://fastapi.tiangolo.com/) for the web framework
+- [React](https://react.dev/) for the frontend framework
+
+## Current limitations
+
+- PDF is the only supported upload format.
+- The API has no authentication or rate limiting by default.
+- The provider registry currently contains Gemini only.
+- The evaluation endpoint reports measured data only after enough request or labeled evaluation samples exist; this repository does not publish benchmark results.
+
+For bugs or concrete improvements, use the [issue tracker](https://github.com/melbinjp/citerag/issues).
+
+---
+
+**Author**: [Melbin J Paulose](https://github.com/melbinjp) ([@melbinjp](https://github.com/melbinjp))

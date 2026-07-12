@@ -112,7 +112,9 @@ export const queryStream = async function*(sessionId, q, doc_ids = null) {
         try {
             const errData = await response.json();
             if (errData.detail) errMsg = errData.detail;
-        } catch (e) {}
+        } catch {
+            // Keep the HTTP status message when the error body is not JSON.
+        }
         throw new Error(errMsg);
     }
 
@@ -242,8 +244,8 @@ export const queryConversationStream = async function* (conversationId, q, optio
       const errData = await response.json();
       if (errData.detail) errMsg = errData.detail;
       else if (errData.message) errMsg = errData.message;
-    } catch (_) {
-      // ignore JSON parse failure — keep the HTTP status message
+    } catch {
+      // Ignore JSON parse failure — keep the HTTP status message.
     }
     throw new Error(errMsg);
   }
@@ -276,8 +278,8 @@ export const queryConversationStream = async function* (conversationId, q, optio
       let event;
       try {
         event = JSON.parse(dataStr);
-      } catch (_) {
-        // Malformed JSON — skip this event
+      } catch {
+        // Malformed JSON — skip this event.
         continue;
       }
 

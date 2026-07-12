@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import { getSessionStatus, refreshSession } from '../services/api';
 import './SessionStatus.css';
@@ -8,7 +8,7 @@ const SessionStatus = () => {
   const [status, setStatus] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchStatus = async () => {
+  const fetchStatus = useCallback(async () => {
     if (!sessionId) return;
     try {
       const statusData = await getSessionStatus(sessionId);
@@ -16,7 +16,7 @@ const SessionStatus = () => {
     } catch (error) {
       console.error('Failed to fetch session status:', error);
     }
-  };
+  }, [sessionId]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -34,7 +34,7 @@ const SessionStatus = () => {
     fetchStatus();
     const interval = setInterval(fetchStatus, 60000); // Check every minute
     return () => clearInterval(interval);
-  }, [sessionId]);
+  }, [fetchStatus]);
 
   if (!status) return null;
 

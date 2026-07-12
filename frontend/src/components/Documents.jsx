@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { SessionContext } from '../contexts/SessionContext';
 import { DocumentContext } from '../contexts/DocumentContext';
 import { deleteDocument } from '../services/api';
@@ -8,7 +7,6 @@ import './Documents.css';
 const Documents = () => {
   const { sessionId } = useContext(SessionContext);
   const { documents, removeDocument } = useContext(DocumentContext);
-  const { t } = useTranslation();
   const [error, setError] = useState('');
   const [deletingDocs, setDeletingDocs] = useState(new Set());
 
