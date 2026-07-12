@@ -16,6 +16,7 @@ Requirements: 4.3, 4.4, 4.5, 6.1
 from __future__ import annotations
 
 import hashlib
+import uuid
 
 import pytest
 
@@ -60,11 +61,10 @@ def make_chunk(text: str = "hello world", **meta_kwargs) -> Chunk:
 class TestComputePointId:
     """Property 15: Point ids are deterministic and idempotent (Req 4.4, 5.4)."""
 
-    def test_returns_64_char_hex_string(self):
-        """Point id is a valid 64-character SHA-256 hex string."""
+    def test_returns_qdrant_compatible_uuid(self):
+        """Point id is a valid UUID derived from the SHA-256 digest."""
         pid = VectorStore.compute_point_id("text", make_metadata())
-        assert len(pid) == 64
-        assert all(c in "0123456789abcdef" for c in pid)
+        assert str(uuid.UUID(pid)) == pid
 
     def test_deterministic_same_inputs(self):
         """Same text + metadata always produces the same point id."""
@@ -118,12 +118,13 @@ class TestComputePointId:
         # Same pdf_id, page_number, chunk_position → same id even with different filenames
         assert VectorStore.compute_point_id(text, meta1) == VectorStore.compute_point_id(text, meta2)
 
-    def test_matches_manual_sha256(self):
-        """Point id matches the manually-computed SHA-256 of the formula."""
+    def test_matches_manual_sha256_uuid_prefix(self):
+        """Point id is the UUID form of the first 128 SHA-256 bits."""
         text = "manual check"
         meta = make_metadata(pdf_id="pdfa", page_number=5, chunk_position=2)
         raw = "manual check\x00pdfa\x005\x002"
-        expected = hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        sha256_hex = hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        expected = str(uuid.UUID(hex=sha256_hex[:32]))
         assert VectorStore.compute_point_id(text, meta) == expected
 
     def test_identical_chunk_same_as_reingested(self):
@@ -139,16 +140,16 @@ class TestComputePointId:
         assert pid1 == pid2
 
     def test_unicode_text_handled(self):
-        """Unicode text (non-ASCII) is hashed correctly without errors."""
+        """Unicode text (non-ASCII) produces a valid UUID without errors."""
         text = "日本語テキスト — 한국어 — Ελληνικά"
         meta = make_metadata(pdf_id="multilang")
         pid = VectorStore.compute_point_id(text, meta)
-        assert len(pid) == 64
+        assert str(uuid.UUID(pid)) == pid
 
     def test_empty_text_produces_valid_id(self):
-        """Empty text still produces a valid 64-char hex id without error."""
+        """Empty text still produces a valid UUID without error."""
         pid = VectorStore.compute_point_id("", make_metadata())
-        assert len(pid) == 64
+        assert str(uuid.UUID(pid)) == pid
 
 
 # ---------------------------------------------------------------------------

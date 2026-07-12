@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import React, { useState, useEffect, createContext } from 'react';
 import { createSession } from '../services/api';
 
@@ -31,7 +33,7 @@ export const SessionProvider = ({ children }) => {
             const { checkSessionHealth } = await import('../services/api');
             await checkSessionHealth(storedSessionId);
             console.log('Session is valid');
-          } catch (error) {
+          } catch {
             console.log('Session expired or invalid. Creating new session.');
             const newSession = await createSession();
             storedSessionId = newSession.session_id;

@@ -1,0 +1,23 @@
+# Code owners for CiteRAG
+# These users will be automatically requested for review when someone opens a PR
+
+# Global owners (all files)
+* @melbinjp
+
+# Backend code
+/backend/ @melbinjp
+
+# Frontend code
+/frontend/ @melbinjp
+
+# Documentation
+/docs/ @melbinjp
+*.md @melbinjp
+
+# CI/CD
+/.github/ @melbinjp
+
+# Infrastructure
+docker-compose.yml @melbinjp
+/backend/Dockerfile @melbinjp
+/frontend/Dockerfile @melbinjp
