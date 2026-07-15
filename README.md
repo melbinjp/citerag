@@ -8,6 +8,8 @@
 
 A working Retrieval-Augmented Generation application for question answering over PDF documents. The answer prompt is constrained to retrieved passages, and responses include page-level source citations.
 
+![CiteRAG — upload PDFs, then query with page-level citations. The ingestion pipeline runs PDF → chunking → dense+sparse embedding → Qdrant vector store.](docs/images/citerag-ui.png)
+
 **[Documentation](docs/) • [API Reference](docs/API.md) • [Deployment Guide](docs/DEPLOYMENT.md) • [Architecture](docs/ARCHITECTURE.md)**
 
 ## Overview
